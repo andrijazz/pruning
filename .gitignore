@@ -1,0 +1,19 @@
+# ignore pycharm files
+__pycache__/
+*.py[cod]
+*$py.class
+*.idea
+.idea/
+
+# ignore torch tensors
+*.pt
+*.pth
+*.pt.tar
+*.pth.tar
+*.log
+
+# .env file is specific to each machine
+.env
+
+# ignore wandb process logs
+wandb/
