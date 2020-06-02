@@ -42,12 +42,12 @@ def unit_pruning(model, k):
 
         r = model.net[i].weight.shape[0]
         c = model.net[i].weight.shape[1]
-        n = (c // 100) * k
+        n = (r // 100) * k
         W = torch.abs(model.net[i].weight.data)
-        x = torch.sum(W * W, dim=0)
+        x = torch.sum(torch.sqrt(W * W), dim=1)
         _, indices = (-x).topk(n)
-        model.net[i].weight.data[:, indices] = 0.
-        zeroed_weights += r * n
+        model.net[i].weight.data[indices, :] = 0.
+        zeroed_weights += c * n
     return model, zeroed_weights
 
 
