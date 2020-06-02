@@ -7,56 +7,13 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torchvision
 import wandb
 
 import base.factory as factory
 import utils.pth_utils as pth_utils
 from base.base_learner import BaseLearner
-import torchvision
-
-
-def matrix_topk(x, k):
-    H, W = x.shape
-
-    x = x.view(-1)
-    _, indices = x.topk(k)
-    indices_cat = torch.cat(((indices // W).unsqueeze(1), (indices % W).unsqueeze(1)), dim=1)
-    indices_cat = indices_cat.to('cpu').numpy()
-    return indices_cat
-
-
-def weight_pruning(model, k):
-    if k == 0:
-        return model, 0
-
-    zeroed_weights = 0
-    for i in range(len(model.net) - 1):
-        if not isinstance(model.net[i], nn.Linear):
-            continue
-
-        m = model.net[i].weight.shape[0] * model.net[i].weight.shape[1]
-        n = (m // 100) * k
-        W = -torch.abs(model.net[i].weight.data)
-        indices = matrix_topk(W, n)
-        model.net[i].weight.data[indices[:, 0], indices[:, 1]] = 0.
-        zeroed_weights += indices.shape[0]
-    return model, zeroed_weights
-
-
-def unit_pruning(model, k):
-    return model, 0
-
-
-def accuracy(predictions, gt):
-    """
-
-    @param predictions:
-    @param gt:
-    @return:
-    """
-    m = gt.shape[0]
-    acc = np.sum(predictions == gt) / m
-    return acc
+from models.pruning import weight_pruning, unit_pruning, accuracy
 
 
 class Learner(BaseLearner):
@@ -192,21 +149,28 @@ class Learner(BaseLearner):
         criterion = nn.CrossEntropyLoss()
         device = self.config.GPU
         model = model.to(device)
+        num_of_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+        print('Total number of parameters is {}'.format(num_of_params))
         model.eval()
 
         for k in self.config.TEST.PRUNING_K:
             # weight pruning
-            pruned_model, zeroed_weights = weight_pruning(model, k)
-            loss, acc = self._validate(pruned_model, criterion, test_loader, k, device)
-            wandb.log({"weight_pruning/loss": loss}, step=k)
-            wandb.log({"weight_pruning/accuracy": acc}, step=k)
+            pruned_model, wp_zeroed_weights = weight_pruning(model, k)
+            wp_loss, wp_acc = self._validate(pruned_model, criterion, test_loader, k, device)
             model.load_state_dict(checkpoint['state_dict'])
+
             # unit pruning
-            pruned_model, zeroed_weights = unit_pruning(model, k)
-            loss, acc = self._validate(pruned_model, criterion, test_loader, k, device)
-            wandb.log({"unit_pruning/loss": loss}, step=k)
-            wandb.log({"unit_pruning/accuracy": acc}, step=k)
+            pruned_model, up_zeroed_weights = unit_pruning(model, k)
+            up_loss, up_acc = self._validate(pruned_model, criterion, test_loader, k, device)
             model.load_state_dict(checkpoint['state_dict'])
+
+            wandb.log({"pruning/weight/loss": wp_loss,
+                       "pruning/unit/loss": up_loss,
+                       "pruning/weight/accuracy": wp_acc,
+                       "pruning/unit/accuracy": up_acc,
+                       'pruning/k': k,
+                       'pruning/weight/zeroed_weights': wp_zeroed_weights,
+                       'pruning/unit/zeroed_weights': up_zeroed_weights})
 
     def _validate(self, model, criterion, val_loader, step, device):
         loss_meter = pth_utils.AverageMeter()
