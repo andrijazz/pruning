@@ -19,6 +19,9 @@ cd pruning
 bash init_env.sh <PROJECT_NAME> <PATH_TO_YOUR_DATA_STORAGE>
 pipenv install
 
+# activate venv
+pipenv shell
+
 # train model
 python run.py --mode train
 
