@@ -49,15 +49,3 @@ def unit_pruning(model, k):
         model.net[i].weight.data[indices, :] = 0.
         zeroed_weights += c * n
     return model, zeroed_weights
-
-
-def accuracy(predictions, gt):
-    """
-
-    @param predictions:
-    @param gt:
-    @return:
-    """
-    m = gt.shape[0]
-    acc = np.sum(predictions == gt) / m
-    return acc

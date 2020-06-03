@@ -13,7 +13,19 @@ import wandb
 import base.factory as factory
 import utils.pth_utils as pth_utils
 from base.base_learner import BaseLearner
-from models.pruning import weight_pruning, unit_pruning, accuracy
+from models.pruning import weight_pruning, unit_pruning
+
+
+def accuracy(predictions, gt):
+    """
+
+    @param predictions:
+    @param gt:
+    @return:
+    """
+    m = gt.shape[0]
+    acc = np.sum(predictions == gt) / m
+    return acc
 
 
 class Learner(BaseLearner):
@@ -205,16 +217,3 @@ class Learner(BaseLearner):
 
     def inference(self):
         pass
-
-
-def main():
-    import importlib
-    import copy
-    config_module = importlib.import_module('models.basic_config')
-    config = copy.deepcopy(config_module.cfg)
-    learner = factory.create_learner(config)
-    learner.test()
-
-
-if __name__ == "__main__":
-    main()

@@ -5,6 +5,7 @@ from torch.nn import Module, Parameter
 from torch.nn import functional as F, init
 
 
+# TODO implement SparseLinear using https://pytorch.org/docs/stable/sparse.html experimental API
 class SparseLinear(Module):
 
     __constants__ = ['bias', 'in_features', 'out_features']
