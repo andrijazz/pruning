@@ -17,11 +17,8 @@ git clone https://github.com/andrijazz/pruning
 cd pruning
 bash init_env.sh <PROJECT_NAME> <PATH_TO_YOUR_DATA_STORAGE>
 pipenv install
-```
 
-### Usage
-
-```.env
+# start venv
 pipenv shell
 
 # train model
@@ -31,14 +28,15 @@ python models/learning.py --train
 python models/learning.py --test
 
 ```
+
 ### Observations
 
 *What do you anticipate the degradation curve of sparsity vs. performance to be? Your assignment will be to plot this curve for both weight and unit pruning. Compare the curves and make some observations
 and hypotheses about the observations.* 
 
-![plot](https://github.com/andrijazz/pruning/docs/plot.png)
+![](https://github.com/andrijazz/pruning/blob/master/docs/plot.png)
 
-![plot2](https://github.com/andrijazz/pruning/docs/plot2.png)
+![](https://github.com/andrijazz/pruning/blob/master/docs/plot2.png)
 
 ### References
 * https://jacobgil.github.io/deeplearning/pruning-deep-learning
