@@ -34,8 +34,6 @@ python models/learning.py --test
 *What do you anticipate the degradation curve of sparsity vs. performance to be? Your assignment will be to plot this curve for both weight and unit pruning. Compare the curves and make some observations
 and hypotheses about the observations.* 
 
-![](https://github.com/andrijazz/pruning/blob/master/docs/plot.png)
-
 ![](https://github.com/andrijazz/pruning/blob/master/docs/plot2.png)
 
 ### References
