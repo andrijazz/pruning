@@ -25,11 +25,11 @@ C.TRAIN = edict()
 C.TRAIN.DATASET = edict()
 C.TRAIN.DATASET.NAME = "MNIST"
 C.TRAIN.DATASET.TRANSFORM = transforms.Compose([
-        # transforms.Resize((224, 224)),
-        # transforms.CenterCrop(224),
-        transforms.ToTensor()
-        # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  (0.1307,), (0.3081,))
-    ])
+    # transforms.Resize((224, 224)),
+    # transforms.CenterCrop(224),
+    transforms.ToTensor()
+    # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  (0.1307,), (0.3081,))
+])
 
 # Step period to write summaries to tensorboard
 C.TRAIN.SUMMARY_FREQ = 10
@@ -67,10 +67,10 @@ C.TEST.PRUNING_K = [0, 25, 50, 60, 70, 80, 90, 95, 97, 99]
 C.TEST.DATASET = edict()
 C.TEST.DATASET.NAME = "MNIST"
 C.TEST.DATASET.TRANSFORM = transforms.Compose([
-        # transforms.Resize((224, 224)),
-        # transforms.CenterCrop(224),
-        transforms.ToTensor()
-        # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  (0.1307,), (0.3081,))
-    ])
+    # transforms.Resize((224, 224)),
+    # transforms.CenterCrop(224),
+    transforms.ToTensor()
+    # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  (0.1307,), (0.3081,))
+])
 # Path to h5 file to save results
 C.TEST.OUTPUT_FILE = ""

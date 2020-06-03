@@ -38,7 +38,9 @@ class Learner(BaseLearner):
         kwargs = {'num_workers': 8, 'pin_memory': True} \
             if torch.cuda.is_available() and not pth_utils.is_debug_session() else {}
 
-        dataset = torchvision.datasets.MNIST(os.getenv('DATASETS'), train=True, download=True,
+        dataset = torchvision.datasets.MNIST(os.getenv('DATASETS'),
+                                             train=True,
+                                             download=True,
                                              transform=self.config.TRAIN.DATASET.TRANSFORM)
 
         train_dataset, val_dataset = torch.utils.data.random_split(dataset, lengths=[len(dataset) - 100, 100])
@@ -59,11 +61,7 @@ class Learner(BaseLearner):
         criterion = nn.CrossEntropyLoss()
         step = 0
 
-        best_model = {
-            'step': step,
-            'state_dict': copy.deepcopy(model.state_dict()),
-            'loss': np.inf
-        }
+        best_model = {'step': step, 'state_dict': copy.deepcopy(model.state_dict()), 'loss': np.inf}
 
         # set model to train mode
         model.train()
@@ -116,10 +114,7 @@ class Learner(BaseLearner):
                     model.train()
 
                 if step % self.config.TRAIN.SAVE_MODEL_FREQ == 0:
-                    checkpoint_model = {
-                        'step': step,
-                        'state_dict': copy.deepcopy(model.state_dict())
-                    }
+                    checkpoint_model = {'step': step, 'state_dict': copy.deepcopy(model.state_dict())}
                     pth_utils.save_model(checkpoint_model, 'model')
 
                 step += 1
@@ -141,10 +136,14 @@ class Learner(BaseLearner):
         kwargs = {'num_workers': 8, 'pin_memory': True} \
             if torch.cuda.is_available() and not pth_utils.is_debug_session() else {}
 
-        dataset = torchvision.datasets.MNIST(os.getenv('DATASETS'), train=False, download=True,
+        dataset = torchvision.datasets.MNIST(os.getenv('DATASETS'),
+                                             train=False,
+                                             download=True,
                                              transform=self.config.TEST.DATASET.TRANSFORM)
 
-        test_loader = torch.utils.data.DataLoader(dataset, batch_size=self.config.TEST.BATCH_SIZE, shuffle=False,
+        test_loader = torch.utils.data.DataLoader(dataset,
+                                                  batch_size=self.config.TEST.BATCH_SIZE,
+                                                  shuffle=False,
                                                   **kwargs)
         criterion = nn.CrossEntropyLoss()
         device = self.config.GPU
@@ -164,14 +163,16 @@ class Learner(BaseLearner):
             up_loss, up_acc = self._validate(pruned_model, criterion, test_loader, k, device)
             model.load_state_dict(checkpoint['state_dict'])
 
-            wandb.log({"pruning/weight/loss": wp_loss,
-                       "pruning/unit/loss": up_loss,
-                       "pruning/weight/accuracy": wp_acc,
-                       "pruning/unit/accuracy": up_acc,
-                       'pruning/k': k,
-                       'pruning/sparsity': wp_zeroed_weights * 100 / num_of_params,
-                       'pruning/weight/zeroed_weights': wp_zeroed_weights,
-                       'pruning/unit/zeroed_weights': up_zeroed_weights})
+            wandb.log({
+                "pruning/weight/loss": wp_loss,
+                "pruning/unit/loss": up_loss,
+                "pruning/weight/accuracy": wp_acc,
+                "pruning/unit/accuracy": up_acc,
+                'pruning/k': k,
+                'pruning/sparsity': wp_zeroed_weights * 100 / num_of_params,
+                'pruning/weight/zeroed_weights': wp_zeroed_weights,
+                'pruning/unit/zeroed_weights': up_zeroed_weights
+            })
 
     def _validate(self, model, criterion, val_loader, step, device):
         loss_meter = pth_utils.AverageMeter()
@@ -199,8 +200,6 @@ class Learner(BaseLearner):
         p = np.array(p, dtype=np.int)
         gt = np.array(gt, dtype=np.int)
         acc = accuracy(p, gt)
-
-        # log scalars
         val_loss = loss_meter.avg
         return val_loss, acc
 

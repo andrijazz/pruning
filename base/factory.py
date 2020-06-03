@@ -1,12 +1,8 @@
 import importlib
 
-learners = {
-    'Learner': 'models.learner'
-}
+learners = {'Learner': 'models.learner'}
 
-models = {
-    'BasicModel': 'models.basic_model'
-}
+models = {'BasicModel': 'models.basic_model'}
 
 
 def create_obj(module_name, cls_name, args):

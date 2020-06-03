@@ -2,7 +2,6 @@ import torch.nn as nn
 
 
 class BasicModel(nn.Module):
-
     def __init__(self, config):
         super(BasicModel, self).__init__()
         self.config = config

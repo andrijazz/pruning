@@ -19,7 +19,7 @@ def save_model(model_dict, name, upload_to_wandb=False):
             wandb.save(model_name)
 
 
-def restore_model(file, storage='local',  encoding='utf-8'):
+def restore_model(file, storage='local', encoding='utf-8'):
     if storage == 'wandb':
         parts = file.split('/')
         wandb_path = '/'.join(parts[:-1])
@@ -37,7 +37,6 @@ def restore_model(file, storage='local',  encoding='utf-8'):
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""
-
     def __init__(self):
         self.reset()
 
@@ -52,4 +51,3 @@ class AverageMeter(object):
         self.sum += val * n
         self.count += n
         self.avg = self.sum / self.count
-

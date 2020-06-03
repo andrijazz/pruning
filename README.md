@@ -13,19 +13,17 @@ and [W&B](https://www.wandb.com/) for visualizations.
 ### Setup
 
 ```
+# checkout the code and install all dependencies
 git clone https://github.com/andrijazz/pruning
 cd pruning
 bash init_env.sh <PROJECT_NAME> <PATH_TO_YOUR_DATA_STORAGE>
 pipenv install
 
-# start venv
-pipenv shell
-
 # train model
-python models/learning.py --train
+python run.py --mode train
 
 # test models and plot results to w&b
-python models/learning.py --test
+python run.py --mode test
 
 ```
 
