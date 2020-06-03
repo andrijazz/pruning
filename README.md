@@ -45,7 +45,7 @@ Yes. Weight pruning preforms better because pruning the unit discards the portio
 *Do you have any hypotheses as to why we are able to delete so much of the network without hurting performance
 (this is an open research question)?*
 
-I like the idea behind lottery ticket hypothesis that certain connections got initial weights such that make training particularly effective - and that those connections form a sub-network capable of preforming the task.
+I like the idea behind lottery ticket hypothesis that certain connections got initial weights such that make training particularly effective and that those connections form a sub-network capable of preforming the task almost as good as large net.
 
 ### TODOs
 * More experiments - check the results on more complicated networks
