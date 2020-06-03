@@ -169,6 +169,7 @@ class Learner(BaseLearner):
                        "pruning/weight/accuracy": wp_acc,
                        "pruning/unit/accuracy": up_acc,
                        'pruning/k': k,
+                       'pruning/sparsity': wp_zeroed_weights * 100 / num_of_params,
                        'pruning/weight/zeroed_weights': wp_zeroed_weights,
                        'pruning/unit/zeroed_weights': up_zeroed_weights})
 
