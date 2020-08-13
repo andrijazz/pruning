@@ -34,8 +34,7 @@ python run.py --mode test
 
 ![](https://github.com/andrijazz/pruning/blob/master/docs/plot2.png)
 
-I was expecting that accuracy will start dropping much sooner. Pruning more then 90% of weights with almost none degradation in performance really surprised me.  
-Weight pruning preforms better because pruning the unit discards the portion of information by propagating zeros to the next layer while this is not the case with weight pruning.
+I was expecting that accuracy will start dropping much sooner. Pruning more then 90% of weights with almost none degradation in performance really surprised me. Weight pruning preforms better because pruning the unit discards the portion of information by propagating zeros to the next layer while this is not the case with weight pruning.
 
 ### TODOs
 * More experiments - check the results on more complicated networks
