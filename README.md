@@ -1,4 +1,4 @@
-# Pruning Challenge
+# Pruning
 
 Analysing pruning strategies.
 
