@@ -4,11 +4,7 @@ Analysing pruning strategies.
 
 ### Dependencies
 
-I am using [pipenv](https://pipenv-es.readthedocs.io/es/stable/) for handling python virtual environments:
-```
-pip3 install --user pipenv
-```
-and [W&B](https://www.wandb.com/) for visualizations.
+I am using [pipenv](https://pipenv-es.readthedocs.io/es/stable/) and [W&B](https://www.wandb.com/) for visualizations.
 
 ### Setup
 
