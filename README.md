@@ -2,10 +2,6 @@
 
 Analysing pruning strategies.
 
-### Dependencies
-
-I am using [pipenv](https://pipenv-es.readthedocs.io/es/stable/) and [W&B](https://www.wandb.com/) for visualizations.
-
 ### Setup
 
 ```
